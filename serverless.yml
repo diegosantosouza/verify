@@ -31,6 +31,7 @@ provider:
 functions:
   api:
     handler: handler.handler
+    memorySize: 128 # mb
     events:
       - httpApi: '*'
 
