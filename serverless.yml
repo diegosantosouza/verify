@@ -27,7 +27,6 @@ provider:
             - Fn::GetAtt: [ VerifyTable, Arn ]
   environment:
     VERIFY_TABLE: ${self:custom.tableName}
-    AWS_REGION: us-east-1
 
 functions:
   api:
