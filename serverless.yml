@@ -51,6 +51,3 @@ resources:
         TimeToLiveSpecification:
           AttributeName: expires_at
           Enabled: true
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
