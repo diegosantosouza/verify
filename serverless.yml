@@ -1,0 +1,56 @@
+service: verify-code
+frameworkVersion: '3'
+
+custom:
+  tableName: 'verify-table-${sls:stage}'
+
+plugins:
+  - serverless-plugin-typescript
+  
+provider:
+  name: aws
+  stage: dev
+  region: us-east-1
+  runtime: nodejs14.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - Fn::GetAtt: [ VerifyTable, Arn ]
+  environment:
+    VERIFY_TABLE: ${self:custom.tableName}
+    AWS_REGION: us-east-1
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi: '*'
+
+resources:
+  Resources:
+    VerifyTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: code
+            AttributeType: S
+        KeySchema:
+          - AttributeName: code
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.tableName}
+        TimeToLiveSpecification:
+          AttributeName: expires_at
+          Enabled: true
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
