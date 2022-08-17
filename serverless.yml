@@ -33,7 +33,14 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource:
+            - '*'
             - Fn::GetAtt: [ VerifyTable, Arn ]
+
+        - Effect: Allow
+          Action:
+            - sns:Publish
+          Resource:
+            - '*'
   environment:
     VERIFY_TABLE: ${self:custom.tableName}
 
