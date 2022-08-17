@@ -13,7 +13,7 @@ provider:
   stage: dev
   region: us-east-1
   runtime: nodejs14.x
-  memorySize: 512 # mb
+  memorySize: 256 # mb
   timeout: 10 # seconds
   logRetentionInDays: 90
   logs:
