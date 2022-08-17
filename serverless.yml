@@ -6,12 +6,21 @@ custom:
 
 plugins:
   - serverless-plugin-typescript
+  - serverless-offline
   
 provider:
   name: aws
   stage: dev
   region: us-east-1
   runtime: nodejs14.x
+  memorySize: 512 # mb
+  timeout: 10 # seconds
+  logRetentionInDays: 90
+  logs:
+    httpApi: true
+  httpApi:
+    # metrics: true # Enable if you need
+    cors: true
   iam:
     role:
       statements:
@@ -30,10 +39,12 @@ provider:
 
 functions:
   api:
-    handler: handler.handler
-    memorySize: 128 # mb
+    handler: src/handler.handler
     events:
       - httpApi: '*'
+
+package:
+  individually: true
 
 resources:
   Resources:
