@@ -11,7 +11,7 @@ class DynamoDbClient {
 
   private dayInMilliseconds = 86400000;
 
-  private expireInSeconds = Date.now() + this.dayInMilliseconds / 1000;
+  private expireInSeconds = (Date.now() + this.dayInMilliseconds) / 1000;
 
   public async putItem(params: CreateVerification): Promise<any> {
     const data = {
