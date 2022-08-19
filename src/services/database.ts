@@ -11,13 +11,15 @@ class DynamoDbClient {
 
   private dayInMilliseconds = 86400000;
 
+  private expireInSeconds = Date.now() + this.dayInMilliseconds / 1000;
+
   public async putItem(params: CreateVerification): Promise<any> {
     const data = {
       TableName: process.env.VERIFY_TABLE,
       Item: {
         code: { S: params.code },
         attribute: { S: params.attribute },
-        expires_at: { N: `${Date.now() + this.dayInMilliseconds}` },
+        expires_at: { N: `${this.expireInSeconds}` },
       },
     };
     return this.database.send(new PutItemCommand(data));
