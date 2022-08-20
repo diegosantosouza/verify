@@ -9,18 +9,19 @@ import type { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { retrieveSchema } from '../sms.validator';
 import { dbClient } from './database';
 
+type Code = { code: string };
+
 const retrieve = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  const { code } = event.pathParameters as { code: string };
+  const { code } = event.pathParameters as Code;
   try {
-    console.log(code);
-    const item = await dbClient.getItem(code);
-    if (item) {
+    const { Item } = await dbClient.getItem(code);
+    if (Item) {
       return {
         statusCode: 200,
         body: JSON.stringify({
-          item,
+          Item,
         }),
       };
     }

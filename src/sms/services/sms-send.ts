@@ -22,8 +22,10 @@ const send: APIGatewayProxyHandler = async (
   const { phone } = event.body as unknown as Phone;
   const code = await AliasId.generate();
   try {
-    await SmsClient.sendSms(phone, `Your code is ${code}`);
-    await dbClient.putItem({ code, attribute: phone });
+    await Promise.all([
+      await SmsClient.sendSms(phone, `Your code is ${code}`),
+      await dbClient.putItem({ code, attribute: phone }),
+    ]);
     return {
       statusCode: 200,
       body: JSON.stringify({

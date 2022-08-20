@@ -10,7 +10,7 @@ export class SmsClient {
     try {
       await sns.send(new PublishCommand(data));
     } catch (error) {
-      console.error(error);
+      throw new Error(`error: ${error}`);
     }
   }
 }
