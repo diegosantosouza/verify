@@ -1,0 +1,14 @@
+sms-send:
+  handler: src/sms/services/sms.sender
+  events:
+    - http:
+        path: sms/
+        method: post
+        private: true
+sms-get:
+  handler: src/sms/services/sms.get
+  events:
+    - http:
+        path: sms/{code}
+        method: get
+        private: true     

@@ -16,11 +16,6 @@ provider:
   memorySize: 256 # mb
   timeout: 10 # seconds
   logRetentionInDays: 90
-  logs:
-    httpApi: true
-  httpApi:
-    # metrics: true # Enable if you need
-    cors: true
   iam:
     role:
       statements:
@@ -43,12 +38,33 @@ provider:
             - '*'
   environment:
     VERIFY_TABLE: ${self:custom.tableName}
+  apiGateway:
+    apiKeySourceType: HEADER
+    apiKeys:
+      - ${self:provider.stage}-VERIFY-API-KEY
+    usagePlan:
+      quota:
+        limit: 100
+        period: DAY
+      throttle:
+        rateLimit: 5
+        burstLimit: 20
 
 functions:
-  api:
-    handler: src/handler.handler
+  smsSend:
+    handler: ./src/sms/services/sms-send.sender
     events:
-      - httpApi: '*'
+      - http:
+          path: sms/
+          method: post
+          private: true
+  smsGet:
+    handler: ./src/sms/services/sms-get.get
+    events:
+      - http:
+          path: sms/{code}
+          method: get
+          private: true
 
 package:
   individually: true

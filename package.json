@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "cross-env NODE_ENV=development sls offline start --stage offline",
-    "tail-log": "sls logs -f app -t",
+    "tail-log": "sls logs -f smsGet",
     "deploy-prod": "cross-env NODE_ENV=production sls deploy --stage prod",
     "remove-prod": "sls remove --stage prod",
     "clean": "rimraf dist .webpack .serverless",
@@ -16,19 +16,25 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.145.0",
     "@aws-sdk/client-sns": "^3.145.0",
-    "express": "^4.17.1",
-    "helmet": "^5.1.1",
+    "@middy/core": "^3.2.0",
+    "@middy/http-error-handler": "^3.2.0",
+    "@middy/http-event-normalizer": "^3.2.0",
+    "@middy/http-header-normalizer": "^3.2.0",
+    "@middy/http-json-body-parser": "^3.2.0",
+    "@middy/util": "^3.2.0",
+    "@middy/validator": "^3.2.0",
     "nanoid": "^4.0.0",
     "nanoid-dictionary": "^4.3.0",
-    "nanoid-good": "^3.1.0",
-    "serverless-http": "^2.7.0"
+    "nanoid-good": "^3.1.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
+    "@types/aws-lambda": "^8.10.102",
     "@types/express": "^4.17.13",
     "@typescript-eslint/eslint-plugin": "^5.33.1",
     "@typescript-eslint/parser": "^5.33.1",
+    "aws-lambda": "^1.0.7",
     "cross-env": "^7.0.3",
     "eslint": "^8.22.0",
     "eslint-config-airbnb-base": "^15.0.0",
