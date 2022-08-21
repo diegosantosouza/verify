@@ -10,7 +10,6 @@ plugins:
   
 provider:
   name: aws
-  stage: dev
   region: us-east-1
   runtime: nodejs14.x
   memorySize: 256 # mb
@@ -41,7 +40,7 @@ provider:
   apiGateway:
     apiKeySourceType: HEADER
     apiKeys:
-      - ${self:provider.stage}-VERIFY-API-KEY
+      - ${sls:stage}-VERIFY-API-KEY
     usagePlan:
       quota:
         limit: 100
