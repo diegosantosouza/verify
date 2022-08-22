@@ -57,11 +57,11 @@ functions:
           path: sms/
           method: post
           private: true
-  smsGet:
-    handler: ./src/sms/services/sms-get.get
+  verify:
+    handler: ./src/verify.get
     events:
       - http:
-          path: sms/{code}
+          path: verify/{code}
           method: get
           private: true
 

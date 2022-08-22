@@ -9,6 +9,7 @@ import type {
   APIGatewayProxyResult,
 } from 'aws-lambda';
 
+import { tracerHandler } from '../../shared/config/tracer-default';
 import { createSchema } from '../sms.validator';
 import AliasId from './aliasId';
 import { dbClient } from './database';
@@ -49,5 +50,6 @@ export const sender = middy(send)
       inputSchema: createSchema,
     })
   )
+  .use(tracerHandler('sender SMS'))
   .use(httpErrorHandler())
   .use(httpEventNormalizer());

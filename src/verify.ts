@@ -6,8 +6,9 @@ import jsonBodyParser from '@middy/http-json-body-parser';
 import validator from '@middy/validator';
 import type { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
-import { retrieveSchema } from '../sms.validator';
-import { dbClient } from './database';
+import { tracerHandler } from './shared/config/tracer-default';
+import { dbClient } from './sms/services/database';
+import { retrieveSchema } from './sms/sms.validator';
 
 type Code = { code: string };
 
@@ -48,6 +49,7 @@ export const get = middy(retrieve)
       inputSchema: retrieveSchema,
     })
   )
+  .use(tracerHandler('verify code'))
   .use(httpErrorHandler())
   .use(httpEventNormalizer())
   .use(httpHeaderNormalizer());
