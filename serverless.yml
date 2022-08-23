@@ -37,6 +37,7 @@ provider:
             - '*'
   environment:
     VERIFY_TABLE: ${self:custom.tableName}
+    STAGE: ${sls:stage}
   apiGateway:
     apiKeySourceType: HEADER
     apiKeys:
