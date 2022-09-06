@@ -20,6 +20,7 @@ const retrieve = async (
   try {
     const { Item } = await dbClient.getItem(code);
     if (Item) {
+      await dbClient.deleteItem(code);
       return {
         statusCode: 200,
         body: JSON.stringify({

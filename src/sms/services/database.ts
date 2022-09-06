@@ -1,4 +1,5 @@
 import {
+  DeleteItemCommand,
   DynamoDBClient,
   GetItemCommand,
   PutItemCommand,
@@ -33,6 +34,16 @@ class DynamoDbClient {
       },
     };
     return this.database.send(new GetItemCommand(data));
+  }
+
+  public async deleteItem(code: string): Promise<void> {
+    const data = {
+      TableName: process.env.DURIN_TABLE,
+      Key: {
+        code: { S: code },
+      },
+    };
+    this.database.send(new DeleteItemCommand(data));
   }
 }
 
