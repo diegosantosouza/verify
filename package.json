@@ -25,7 +25,7 @@
     "@middy/http-json-body-parser": "^3.2.0",
     "@middy/util": "^3.2.0",
     "@middy/validator": "^3.2.0",
-    "nanoid": "^4.0.0",
+    "nanoid": "^5.0.9",
     "nanoid-dictionary": "^4.3.0",
     "nanoid-good": "^3.1.0"
   },
